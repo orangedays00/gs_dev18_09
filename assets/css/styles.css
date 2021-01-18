@@ -1,0 +1,147 @@
+html {
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  height: 100vh;
+}
+
+body {
+  width: 1200px;
+  height: 100vh;
+  font-size: 16px;
+  margin:0 auto;
+  line-height: 1.5;
+  color: #333333;
+  display: flex;
+}
+
+/* 
+左軸ナビ
+ */
+.left-nav {
+  width: 240px;
+  text-align: center;
+  background-color: #fafafa;
+  color: #333;
+  display: flex;
+  flex-direction: column;
+}
+
+.account-message {
+  margin: 16px 0 32px;
+}
+
+.left-nav p {
+  padding: 10px;
+  margin: 1rem 0;
+}
+
+.left-nav p:last-child {
+  margin-top: auto;
+}
+
+.left-nav a {
+  text-decoration: none;
+  color: #333;
+}
+
+/* 
+コンテンツエリア
+*/
+article {
+    flex: 1;
+    background-color: #fff;
+    margin: 16px;
+}
+
+
+section {
+  margin: 0 auto;
+}
+
+/*
+index.php（ログインページ）
+*/
+
+.login {
+  background-image: url('../img/3412395_l-min.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* 画像を透過する */
+  background-color:rgba(0, 0, 0, 0.5);
+	background-blend-mode:lighten;
+}
+
+.login-h1 {
+  text-align: center;
+  color: #fff;
+}
+
+.login-form {
+  background-color: #fff;
+  padding: 30px;
+  margin: 30px;
+}
+
+.login-form-parts #email, .login-form-parts #pass {
+  width: 200px;
+  padding: 5px;
+}
+
+.login-form-email, .login-form-pass, .login-form-submit  {
+  margin: 20px 5px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-parts {
+  font-size: 1.2rem;
+}
+
+.login-btn {
+  display: inline-block;
+  border-radius: 5%;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  padding: 12px 13px;
+  background: #333333;
+  color: #ffffff;
+  line-height: 1em;
+  transition: .3s;
+  border: 2px solid #333333;
+}
+
+/*
+TOPページ（ログイン後）
+*/
+
+.login-article h1 {
+  text-align: left;
+}
+
+
+.table {
+  width: 800px;
+  margin: 30px auto;
+}
+
+.account-list {
+  padding: 5px 10px;
+}
+
+.account-id {
+  width: 100px;
+  padding: 5px 10px;
+}
+
+.account-name {
+  width: 300px;
+  padding: 5px 10px;
+}
+
+.account-email {
+  width: 400px;
+  padding: 5px 10px;
+}
