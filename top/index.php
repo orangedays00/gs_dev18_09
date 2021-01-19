@@ -18,6 +18,8 @@ if (!isset($_SESSION["login"])) {
 $message = $_SESSION['login']."さん";
 $message = h($message);
 
+$authority  = $_SESSION["authority"];
+
 ?>
 
 <!DOCTYPE html>
@@ -49,10 +51,10 @@ $message = h($message);
     p('<p class="alert alert-danger" role="alert">登録されたアカウントはありません</p>');
   } else {
     p('<div class="table"><table>');
-    p('<tr class="account-list">' .'<th class="account-id">ID</th>'.'<th class="account-name">アカウント名</th>' . '<th class="account-email">メールアドレス</th>' . '</tr>');
+    p('<tr class="account-list">' .'<th class="account-id">ID</th>'.'<th class="account-name">アカウント名</th>' . '<th class="account-email">メールアドレス</th>' . '<th class="account-delete">削除</th>' . '</tr>');
 
     foreach($results as $result){
-      outputResult($result);
+      outputResult($result, $authority);
     }
 
     p('</table></div>');
@@ -60,5 +62,19 @@ $message = h($message);
   ?>
 </section>
 </article>
+<!-- <div id="modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-body">
+      <h3>アカウント削除</h3>
+      <div>アカウントを削除します。</div>
+      <form action="delete.php" method="POST"></form>
+      <input type="button" id="closeModal" value="キャンセル" onclick="closeModal()">
+      <input type="hidden" name="deleteId" value=`${deleteAccount()}`>
+      <input type="submit" value="削除する">
+    </div>
+  </div>
+</div> -->
+
+<script src="../assets/js/main.js"></script>
 </body>
 </html>

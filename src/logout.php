@@ -21,6 +21,9 @@ if (ini_get("session.use_cookies")) {
 
 //セッションを破棄
 session_destroy();
+
+// header('Location: ../index.php');
+// exit();
 ?>
 
 <html lang="ja">
@@ -33,15 +36,15 @@ session_destroy();
   <title>gs_ats</title>
 </head>
 <body>
-<header class="left-nav">
+<!-- <header class="left-nav">
   <div class="account-message"><?php echo $message;?><br>ようこそ</div>
   <p><a href="../top/index.php">TOP</a></p>
   <p><a href="../registration/index.php">アカウント作成</a></p>
   <p><a href="../src/logout.php">ログアウト</a></p>
-</header>
+</header> -->
 <article class="login-article">
-<h1>ログアウトページ</h1>
-<div class="message">ログアウトしました</div>
+<h1>ログアウトしました</h1>
+<!-- <div class="message">ログアウトしました</div> -->
 <a href="/gs_ats/">ログインページへ</a>
 </article>
 </body>

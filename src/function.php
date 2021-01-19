@@ -32,7 +32,7 @@ function getDbh() {
 // アカウント一覧を取得
 function getResult(){
   /* 取得クエリ */
-  $sql = "SELECT id, name, email
+  $sql = "SELECT id, name, email, account_type
       FROM gs_user";
 
   /* 取得準備 */
@@ -45,8 +45,24 @@ function getResult(){
   return $result;
 }
 
-function outputResult($result){
-  p('<tr class="account-list">' .'<td class="account-id">'. $result["id"] .'</td>'.'<td class="account-name">' .$result["name"] . '</td>' . '<td class="account-email">' . $result["email"] . '</td>' . '</tr>');
+// function outputResult($result, $authority){
+//   p('<tr class="account-list">' .'<td class="account-id">'. $result["id"] .'</td>'.'<td class="account-name">' .$result["name"] . '</td>' . '<td class="account-email">' . $result["email"] . '</td>');
+//   if($authority == 0 ){
+//     p('<td class="account-delete"><input type="button" id="btn'. $result["id"]. '" onclick="deleteAccount(this.id)" value="×"></td>');
+//   } else {
+//     p('<td class="account-delete"></td>');
+//   }
+//   p('</tr>');
+// }
+
+function outputResult($result, $authority){
+  p('<tr class="account-list">' .'<td class="account-id">'. $result["id"] .'</td>'.'<td class="account-name">' .$result["name"] . '</td>' . '<td class="account-email">' . $result["email"] . '</td>');
+  if($authority == 0 ){
+    p('<td class="account-delete"><a href="../src/delete.php?id='.$result["id"] .'">×</a></td>');
+  } else {
+    p('<td class="account-delete"></td>');
+  }
+  p('</tr>');
 }
 
 ?>

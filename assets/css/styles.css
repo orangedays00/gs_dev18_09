@@ -131,9 +131,10 @@ TOPページ（ログイン後）
   padding: 5px 10px;
 }
 
-.account-id {
-  width: 100px;
+.account-id, .account-delete {
+  width: 75px;
   padding: 5px 10px;
+  text-align: center;
 }
 
 .account-name {
@@ -142,6 +143,36 @@ TOPページ（ログイン後）
 }
 
 .account-email {
-  width: 400px;
+  width: 350px;
   padding: 5px 10px;
 }
+
+.account-delete a {
+  border: none;
+  background: #fff;
+  user-select: none;
+  color: #333;
+}
+
+.account-delete a:focus {
+  outline: 0;
+}
+
+/* .modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.5);
+  }
+  
+  .modal-content{
+  background-color: white;
+  width: 500px;
+  margin: 40% auto;
+  }
+   */

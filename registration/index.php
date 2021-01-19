@@ -105,6 +105,8 @@ if (!empty($_CLEAN["btn_confirm"])){
     exit("ErrorMessage:".$error_sql[2]);
   }
 
+  exit();
+
 } else {
   $page_flag = 0;
 }
