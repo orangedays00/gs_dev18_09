@@ -45,24 +45,116 @@ function getResult(){
   return $result;
 }
 
-// function outputResult($result, $authority){
-//   p('<tr class="account-list">' .'<td class="account-id">'. $result["id"] .'</td>'.'<td class="account-name">' .$result["name"] . '</td>' . '<td class="account-email">' . $result["email"] . '</td>');
-//   if($authority == 0 ){
-//     p('<td class="account-delete"><input type="button" id="btn'. $result["id"]. '" onclick="deleteAccount(this.id)" value="×"></td>');
-//   } else {
-//     p('<td class="account-delete"></td>');
-//   }
-//   p('</tr>');
-// }
-
+// アカウント一覧を整形
 function outputResult($result, $authority){
   p('<tr class="account-list">' .'<td class="account-id">'. $result["id"] .'</td>'.'<td class="account-name">' .$result["name"] . '</td>' . '<td class="account-email">' . $result["email"] . '</td>');
-  if($authority == 0 ){
-    p('<td class="account-delete"><a href="../src/delete.php?id='.$result["id"] .'">×</a></td>');
+  if($authority == 0){ //ログインアカウントが管理者の場合
+    if($result["account_type"] == 0){ //引数のデータが、管理者の場合
+      p('<td class="account-delete"></td>');
+    }else{
+      p('<td class="account-delete"><input type="button" id="btn'. $result["id"]. '" onclick="deleteAccount(this.id)" value="×"></td>');
+    }
   } else {
     p('<td class="account-delete"></td>');
   }
   p('</tr>');
 }
+
+// 応募者一覧を取得
+function getApplicant(){
+  /* 取得クエリ */
+  $sql = "SELECT id, last_name, first_name, last_kana, first_kana, birth_day, sex
+      FROM gs_applicant_user";
+
+  /* 取得準備 */
+  $stmt = getDbh()->prepare($sql);
+  /* スレッド情報を取得 */
+  $stmt->execute();
+  /** 全件を$resultに代入 */
+  $result = $stmt->fetchAll();
+  /** 呼び出しもとに取得結果を返す */
+  return $result;
+}
+
+// 応募者一覧
+function outputApplicant($result){
+  $now = date("Ymd");
+  $birthday = str_replace("-", "", $result["birth_day"]);//ハイフンを除去しています。
+  $age = floor(($now-$birthday)/10000).'歳';
+  p('<tr class="applicant-list">' .'<td class="applicant-id">'. $result["id"] .'</td>'.'<td class="applicant-name">' .$result["last_name"]. " " . $result["first_name"] . '</td>' . '<td class="applicant-kana">' . $result["last_kana"]. " " . $result["first_kana"]  . '</td>'. '<td class="applicant-age">' . $age. '</td>' . '<td class="applicant-sex">' . $result["sex"] . '</td>' . '</rt>');
+}
+
+function prefecture(){
+  $sql = "SELECT prefecture_name
+      FROM gs_m_prefecture";
+
+  /* 取得準備 */
+  $stmt = getDbh()->prepare($sql);
+  /* スレッド情報を取得 */
+  $stmt->execute();
+  /** 全件を$resultに代入 */
+  $result = $stmt->fetchAll();
+  /** 呼び出しもとに取得結果を返す */
+  return $result;
+}
+
+function prefectureResult($result) {
+  p('<option value="'.$result["prefecture_name"].'">'. $result["prefecture_name"].'</option>');
+}
+
+function nowIncome() {
+  $sql = "SELECT *
+      FROM gs_m_nowincome";
+
+  /* 取得準備 */
+  $stmt = getDbh()->prepare($sql);
+  /* スレッド情報を取得 */
+  $stmt->execute();
+  /** 全件を$resultに代入 */
+  $result = $stmt->fetchAll();
+  /** 呼び出しもとに取得結果を返す */
+  return $result;
+}
+
+function nowIncomeResult($result) {
+  if($result["id"] == 1){
+    p('<input type="radio" name="nowIncome" id="nowIncome'.$result["id"].'" value="'.$result["nowincome_text"].'" checked><label class="form-control-radio" for="nowIncome'.$result["id"].'">'.$result["nowincome_text"].'</label>');
+  } else {
+    p('<input type="radio" name="nowIncome" id="nowIncome'.$result["id"].'" value="'.$result["nowincome_text"].'"><label class="form-control-radio" for="nowIncome'.$result["id"].'">'.$result["nowincome_text"].'</label>');
+  }
+}
+
+function employment() {
+  $sql = "SELECT *
+      FROM gs_m_employment";
+
+  /* 取得準備 */
+  $stmt = getDbh()->prepare($sql);
+  /* スレッド情報を取得 */
+  $stmt->execute();
+  /** 全件を$resultに代入 */
+  $result = $stmt->fetchAll();
+  /** 呼び出しもとに取得結果を返す */
+  return $result;
+}
+
+function employmentResult($result) {
+  if($result["id"] == 1){
+    p('<input type="radio" name="nowEmploymentStatus" id="nowEmploymentStatus'.$result["id"].'" value="'.$result["employment"].'" checked><label class="form-control-radio" for="nowEmploymentStatus'.$result["id"].'">'.$result["employment"].'</label>');
+  } else {
+    p('<input type="radio" name="nowEmploymentStatus" id="nowEmploymentStatus'.$result["id"].'" value="'.$result["employment"].'"><label class="form-control-radio" for="nowEmploymentStatus'.$result["id"].'">'.$result["employment"].'</label>');
+  }
+}
+
+// // 一発削除
+// function outputResult($result, $authority){
+//   p('<tr class="account-list">' .'<td class="account-id">'. $result["id"] .'</td>'.'<td class="account-name">' .$result["name"] . '</td>' . '<td class="account-email">' . $result["email"] . '</td>');
+//   if($authority == 0 ){
+//     p('<td class="account-delete"><a href="../src/delete.php?id='.$result["id"] .'">×</a></td>');
+//   } else {
+//     p('<td class="account-delete"></td>');
+//   }
+//   p('</tr>');
+// }
 
 ?>

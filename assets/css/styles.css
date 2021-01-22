@@ -13,6 +13,11 @@ body {
   display: flex;
 }
 
+.btn-primary-text, .btn-primary-text:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
 /* 
 左軸ナビ
  */
@@ -48,8 +53,9 @@ body {
 */
 article {
     flex: 1;
-    background-color: #fff;
+    /* background-color: #fff; これが影響して下で設定した、ラジオボタンのCSSに影響していた */ 
     margin: 16px;
+    overflow: scroll;
 }
 
 
@@ -113,8 +119,49 @@ index.php（ログインページ）
   border: 2px solid #333333;
 }
 
+/* 
+TOP：応募者一覧ページ（ログイン後）
+ */
+
+ .applicant-article h1 {
+  text-align: left;
+}
+
+
+.applicant-table {
+  width: 900px;
+  margin: 30px auto;
+}
+
+.applicant-list {
+  padding: 5px 10px;
+}
+
+.applicant-id {
+  width: 100px;
+  padding: 5px 10px;
+  text-align: center;
+}
+
+.applicant-name {
+  width: 300px;
+  padding: 5px 10px;
+}
+
+.applicant-kana {
+  width: 300px;
+  padding: 5px 10px;
+}
+
+.applicant-sex, .applicant-age {
+  width: 100px;
+  padding: 5px 10px;
+  text-align: center;
+}
+
+
 /*
-TOPページ（ログイン後）
+アカウント一覧ページ
 */
 
 .login-article h1 {
@@ -122,8 +169,8 @@ TOPページ（ログイン後）
 }
 
 
-.table {
-  width: 800px;
+.account-table {
+  width: 900px;
   margin: 30px auto;
 }
 
@@ -132,7 +179,7 @@ TOPページ（ログイン後）
 }
 
 .account-id, .account-delete {
-  width: 75px;
+  width: 125px;
   padding: 5px 10px;
   text-align: center;
 }
@@ -147,18 +194,22 @@ TOPページ（ログイン後）
   padding: 5px 10px;
 }
 
-.account-delete a {
+.account-delete input {
   border: none;
   background: #fff;
   user-select: none;
   color: #333;
+  cursor: pointer;
 }
 
-.account-delete a:focus {
+.account-delete input:focus {
   outline: 0;
+  cursor: pointer;
 }
 
-/* .modal {
+
+/* TOPページのモーダル */
+.modal {
   display: none;
   position: fixed;
   z-index: 1;
@@ -173,6 +224,64 @@ TOPページ（ログイン後）
   .modal-content{
   background-color: white;
   width: 500px;
-  margin: 40% auto;
+  margin: 20% auto;
   }
-   */
+
+.modal-body input {
+  margin: 10px;
+}
+
+.modal-body div {
+  padding: 10px;
+}
+
+/* 
+応募者登録ページ
+*/
+.radio input[type='radio'] {
+	position: absolute;
+	z-index: -1;
+	opacity: 0;
+}
+.radio label {
+	position: relative;
+	display: inline-block;
+  margin-right: 30px;
+  margin-bottom: 20px;
+	padding-right: 10px;
+  padding-left: 20px;
+  line-height: 16px;
+	cursor: pointer;
+}
+.radio label::before {
+	position: absolute;
+	z-index: -1;
+	top: 0;
+	left: 0;
+	display: block;
+	width: 16px;
+	height: 16px;
+	content: ' ';
+	border: 2px solid #007bff;
+	border-radius: 4px;
+}
+.radio input[type='radio'] + label::before {
+	border-radius: 16px;
+}
+.radio input[type='radio']:checked + label {
+  padding-top: 5px;
+  padding-bottom: 5px;
+	padding-left: 10px;
+	color: #ffffff;
+}
+.radio input[type='radio']:checked + label::before {
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background: #007bff;
+}
+/* Transition */
+.radio label, .radio  label::before {
+	-webkit-transition: 0.25s all ease;
+	transition: 0.25s all ease;
+}

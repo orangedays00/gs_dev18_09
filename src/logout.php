@@ -39,7 +39,7 @@ session_destroy();
 <!-- <header class="left-nav">
   <div class="account-message"><?php echo $message;?><br>ようこそ</div>
   <p><a href="../top/index.php">TOP</a></p>
-  <p><a href="../registration/index.php">アカウント作成</a></p>
+  <p><a href="../accountEntry/index.php">アカウント作成</a></p>
   <p><a href="../src/logout.php">ログアウト</a></p>
 </header> -->
 <article class="login-article">

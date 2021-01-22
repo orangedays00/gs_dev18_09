@@ -1,10 +1,13 @@
 <?php
 
-$id = $_GET['id'];
+// $id = $_GET['id'];
 
 $webRoot = $_SERVER['DOCUMENT_ROOT'];
 
 require_once($webRoot . '/gs_ats/src/function.php');
+
+$id = $_POST['deleteId'];
+var_dump($id);
 
 $dbh = getDbh();
 
@@ -19,7 +22,7 @@ $dbh = getDbh();
     $error_sql = $stmt->errorInfo();
     exit("ErrorMessage:".$error_sql[2]);
   } else {
-    header("Location: ../top/index.php");
+    header("Location: ../account/index.php");
     exit();
   }
 

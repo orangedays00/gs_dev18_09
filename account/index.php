@@ -18,6 +18,7 @@ if (!isset($_SESSION["login"])) {
 $message = $_SESSION['login']."さん";
 $message = h($message);
 
+$authority  = $_SESSION["authority"];
 ?>
 
 <!DOCTYPE html>
@@ -38,21 +39,21 @@ $message = h($message);
   <p><a href="../src/logout.php">ログアウト</a></p>
 </header>
 
-<article class="applicant-article">
-<h1>応募者一覧</h1>
-<p class="btn btn-primary"><a class="btn-primary-text" href="../registration/index.php">応募者登録</a></p>
+<article class="login-article">
+<h1>登録アカウント一覧</h1>
+<p class="btn btn-primary"><a class="btn-primary-text" href="../accountEntry/index.php">アカウント作成</a></p>
 <section>
   <?php
-  $results = getApplicant();
+  $results = getResult();
 
   if(!$results) {
-    p('<p class="alert alert-danger" role="alert">応募者はいません</p>');
+    p('<p class="alert alert-danger" role="alert">登録されたアカウントはありません</p>');
   } else {
-    p('<div class="applicant-table table"><table>');
-    p('<tr class="applicant-list">' .'<th class="applicant-id">ID</th>'.'<th class="applicant-name">姓名</th>' .'<th class="applicant-kana">セイメイ</th>' . '<th class="applicant-age">年齢</th>' . '<th class="applicant-sex">性別</th>' . '</tr>');
+    p('<div class="account-table table"><table>');
+    p('<tr class="account-list">' .'<th class="account-id">ID</th>'.'<th class="account-name">アカウント名</th>' . '<th class="account-email">メールアドレス</th>' . '<th class="account-delete">削除</th>' . '</tr>');
 
     foreach($results as $result){
-      outputApplicant($result);
+      outputResult($result, $authority);
     }
 
     p('</table></div>');
@@ -60,6 +61,20 @@ $message = h($message);
   ?>
 </section>
 </article>
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-body">
+      <h3>アカウント削除</h3>
+      <div>アカウントを削除します。</div>
+      <form action="../src/accountDelete.php" method="POST">
+      <!-- form内で、idやnameと同じ名前のonclickを設定すると、this.formを優先するためエラーになる。 -->
+        <input type="button" id="closeModal" class="btn btn-primary" value="キャンセル">
+        <input type="hidden" name="deleteId" value id="deleteId">
+        <input type="submit" value="削除する" class="btn btn-primary">
+      </form>
+    </div>
+  </div>
+</div>
 
 <script src="../assets/js/main.js"></script>
 </body>
