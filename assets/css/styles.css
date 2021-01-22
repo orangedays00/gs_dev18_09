@@ -18,6 +18,14 @@ body {
   text-decoration: none;
 }
 
+.btn-margin {
+  margin: 10px 40px;
+}
+
+.title-text {
+  font-weight: bold;
+}
+
 /* 
 左軸ナビ
  */
@@ -284,4 +292,38 @@ TOP：応募者一覧ページ（ログイン後）
 .radio label, .radio  label::before {
 	-webkit-transition: 0.25s all ease;
 	transition: 0.25s all ease;
+}
+
+/* 応募者詳細ページ */
+.table-form {
+  width: 100%;
+  margin: 30px 0;
+}
+
+table.applicant-detail {
+  box-sizing: border-box;
+  border-collapse: separate;
+  border-spacing: 0;
+  /* border: 1px solid #ccc; */
+}
+
+th.applicant-detail {
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  width: 300px;
+  background-color: #f7f7f7;
+  padding: 20px;
+  line-height: 1.6;
+}
+
+.first-child {
+  border-top: 1px solid #ccc;
+}
+
+td.applicant-detail {
+  border-left: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  width: auto;
+  padding: 20px;
 }

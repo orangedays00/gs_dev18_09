@@ -70,31 +70,55 @@ if (!empty($_CLEAN["btn_confirm"])){
 
   // ここからデータベース登録
 
-  // メールアドレス
-  $email = $_POST["registration_email"];
-  // $title = h($title);
+  $last_name = h($_POST["registration_last_name"]);
 
-  // 名前
-  $name = $_POST["registration_last_name"];
-  // $name = h($name);
+  $first_name = h($_POST["registration_first_name"]);
 
-  // パスワード
-  $password = $_POST["registration_password"];
-  // $pass = h($password);
-  // $pass = hash("sha256",$pass);
+  $last_kana = h($_POST["registration_last_kana"]);
+
+  $first_kana = h($_POST["registration_first_kana"]);
+
+  $email = h($_POST["registration_email"]);
+  // var_dump($email);
+
+  $tel = h($_POST["registration_tel"]);
+
+  $birth_day = $_POST["registration_birthday"];
+  $birth_day = date('Y-m-d', strtotime($birth_day));
+  // $birth_day = date($birth_day);
+  // var_dump($birth_day);
+  // $birth_day = h($_POST["registration_birthday"]);
+  // $birth_day = str_replace("/","-",$birth_day);
+
+  $sex = $_POST["registration_sex"];
+  // var_dump($sex);
+
+  $now_work = $_POST["registration_nowEmploymentStatus"];
+
+  $now_income = $_POST["registration_nowIncome"];
+
+  $now_prefecture = $_POST["registration_prefecture"];
 
 
   $dbh->beginTransaction();
 
-  $sql = "INSERT INTO gs_user(id,email,name,pass,account_type,create_time,update_time)VALUES(null,:email,:name,:pass,'1',sysdate(), sysdate())";
+  $sql = "INSERT INTO gs_applicant_user(id,last_name,first_name,last_kana,first_kana,email,tel,birth_day,sex,now_work,now_income,now_prefecture,create_time,update_time)VALUES(null,:last_name,:first_name,:last_kana,:first_kana,:email,:tel,:birth_day,:sex,:now_work,:now_income,:now_prefecture,sysdate(),sysdate())";
 
   // DB登録
   $stmt = $dbh->prepare($sql);
 
 
+  $stmt->bindValue(':last_name', $last_name, PDO::PARAM_STR);
+  $stmt->bindValue(':first_name', $first_name, PDO::PARAM_STR);
+  $stmt->bindValue(':last_kana', $last_kana, PDO::PARAM_STR);
+  $stmt->bindValue(':first_kana', $first_kana, PDO::PARAM_STR);
   $stmt->bindValue(':email', $email, PDO::PARAM_STR);
-  $stmt->bindValue(':name', $name, PDO::PARAM_STR);
-  $stmt->bindValue(':pass', $password, PDO::PARAM_STR);
+  $stmt->bindValue(':tel', $tel, PDO::PARAM_STR);
+  $stmt->bindValue(':birth_day', $birth_day, PDO::PARAM_STR);
+  $stmt->bindValue(':sex', $sex, PDO::PARAM_STR);
+  $stmt->bindValue(':now_work', $now_work, PDO::PARAM_STR);
+  $stmt->bindValue(':now_income', $now_income, PDO::PARAM_STR);
+  $stmt->bindValue(':now_prefecture', $now_prefecture, PDO::PARAM_STR);
 
   $status = $stmt->execute();
 
@@ -220,54 +244,65 @@ $title = "新規アカウント登録";
           </div>
           <form method="POST" action="">
             <div class="form-group">
-              <label>姓</label>
+              <label class="title-text">姓</label>
               <p class="form-control-plaintext"><?= $_CLEAN["registration_last_name"]; ?></p>
             </div>
-            <label>名</label>
+            <div class="form-group">
+              <label class="title-text">名</label>
               <p class="form-control-plaintext"><?= $_CLEAN["registration_first_name"]; ?></p>
             </div>
             <div class="form-group">
-              <label>セイ</label>
+              <label class="title-text">セイ</label>
               <p class="form-control-plaintext"><?= $_CLEAN["registration_last_kana"]; ?></p>
             </div>
-            <label>メイ</label>
+            <div class="form-group">
+              <label class="title-text">メイ</label>
               <p class="form-control-plaintext"><?= $_CLEAN["registration_first_kana"]; ?></p>
             </div>
             <div class="form-group">
-              <label>メールアドレス</label>
+              <label class="title-text">メールアドレス</label>
               <p class="form-control-plaintext"><?= $_CLEAN["registration_email"]; ?></p>
             </div>
             <div class="form-group">
-              <label>電話番号</label>
+              <label class="title-text">電話番号</label>
               <p class="form-control-plaintext"><?= $_CLEAN["registration_tel"]; ?></p>
             </div>
             <div class="form-group">
-              <label>誕生日</label>
+              <label class="title-text">誕生日</label>
               <p class="form-control-plaintext"><?= $_CLEAN["registration_birthday"]; ?></p>
             </div>
             <div class="form-group">
-              <label>性別</label>
-              <p class="form-control-plaintext"><?= $_CLEAN["sex"]; ?></p>
+              <label class="title-text">性別</label>
+              <p class="form-control-plaintext"><?= $_CLEAN["registration_sex"]; ?></p>
             </div>
             <div class="form-group">
-              <label>現在の就業状況</label>
-              <p class="form-control-plaintext"><?= $_CLEAN["nowEmploymentStatus"]; ?></p>
+              <label class="title-text">現在の就業状況</label>
+              <p class="form-control-plaintext"><?= $_CLEAN["registration_nowEmploymentStatus"]; ?></p>
             </div>
             <div class="form-group">
-              <label>現在年収</label>
-              <p class="form-control-plaintext"><?= $_CLEAN["nowIncome"]; ?></p>
+              <label class="title-text">現在年収</label>
+              <p class="form-control-plaintext"><?= $_CLEAN["registration_nowIncome"]; ?></p>
             </div>
             <div class="form-group">
-              <label>居住地</label>
-              <p class="form-control-plaintext"><?= $_CLEAN["prefecture"]; ?></p>
+              <label class="title-text">居住地</label>
+              <p class="form-control-plaintext"><?= $_CLEAN["registration_prefecture"]; ?></p>
             </div>
             <div class="text-center">
               <input type="submit" name="btn_back" class="btn btn-primary btn-margin" value="戻る">
               <input type="submit" name="btn_submit" class="btn btn-primary btn-margin" value="完了する">
             </div>
             <input type="hidden" name="registration_last_name" value="<?= $_CLEAN["registration_last_name"] ?>">
+            <input type="hidden" name="registration_first_name" value="<?= $_CLEAN["registration_first_name"] ?>">
+            <input type="hidden" name="registration_last_kana" value="<?= $_CLEAN["registration_last_kana"] ?>">
+            <input type="hidden" name="registration_first_kana" value="<?= $_CLEAN["registration_first_kana"] ?>">
             <input type="hidden" name="registration_email" value="<?= $_CLEAN["registration_email"] ?>">
-            <input type="hidden" name="registration_password" value="<?= $_CLEAN["registration_password"] ?>">
+            <input type="hidden" name="registration_tel" value="<?= $_CLEAN["registration_tel"] ?>">
+            <input type="hidden" name="registration_birthday" value="<?= $_CLEAN["registration_birthday"] ?>">
+            <input type="hidden" name="registration_sex" value="<?= $_CLEAN["registration_sex"] ?>">
+            <input type="hidden" name="registration_nowEmploymentStatus" value="<?= $_CLEAN["registration_nowEmploymentStatus"] ?>">
+            <input type="hidden" name="registration_nowIncome" value="<?= $_CLEAN["registration_nowIncome"] ?>">
+            <input type="hidden" name="registration_prefecture" value="<?= $_CLEAN["registration_prefecture"] ?>">
+            
           </form>
         </main>
       </div>
@@ -353,9 +388,9 @@ $title = "新規アカウント登録";
 
               <div class="form-group radio">
                 <p for="registration_sex">性別</p>
-                <input type="radio" name="sex" id="registration_sex_man" checked value="男性"><label for="registration_sex_man" class="form-control-radio">男性</label>
-                <input type="radio" name="sex" id="registration_sex_female" value="女性"><label for="registration_sex_female" class="form-control-radio">女性</label>
-                <input type="radio" name="sex" id="registration_sex_other" value="その他"><label for="registration_sex_other" class="form-control-radio">その他</label>
+                <input type="radio" name="registration_sex" id="registration_sex_man" checked value="男性"><label for="registration_sex_man" class="form-control-radio">男性</label>
+                <input type="radio" name="registration_sex" id="registration_sex_female" value="女性"><label for="registration_sex_female" class="form-control-radio">女性</label>
+                <input type="radio" name="registration_sex" id="registration_sex_other" value="その他"><label for="registration_sex_other" class="form-control-radio">その他</label>
               </div>
 
               <div class="form-group radio">
@@ -368,13 +403,6 @@ $title = "新規アカウント登録";
                   employmentResult($result);
                 }
                 ?>
-                <!-- <input type="radio" name="nowEmploymentStatus" id="nowEmploymentStatus1" value="正社員" checked><label class="form-control-radio" for="nowEmploymentStatus1">正社員</label>
-                <input type="radio" name="nowEmploymentStatus" id="nowEmploymentStatus2" value="契約社員"><label class="form-control-radio" for="nowEmploymentStatus2">契約社員</label>
-                <input type="radio" name="nowEmploymentStatus" id="nowEmploymentStatus3" value="派遣社員"><label class="form-control-radio" for="nowEmploymentStatus3">派遣社員</label>
-                <input type="radio" name="nowEmploymentStatus" id="nowEmploymentStatus4" value="パート・アルバイト"><label class="form-control-radio" for="nowEmploymentStatus4">パート・アルバイト</label>
-                <input type="radio" name="nowEmploymentStatus" id="nowEmploymentStatus5" value="業務委託"><label class="form-control-radio" for="nowEmploymentStatus5">業務委託</label>
-                <input type="radio" name="nowEmploymentStatus" id="nowEmploymentStatus6" value="その他"><label class="form-control-radio" for="nowEmploymentStatus6">その他</label>
-                <input type="radio" name="nowEmploymentStatus" id="nowEmploymentStatus7" value="離職中"><label class="form-control-radio" for="nowEmploymentStatus7">離職中</label> -->
               </div>
 
               <div class="form-group radio">
@@ -385,24 +413,13 @@ $title = "新規アカウント登録";
                   nowIncomeResult($result);
                 }
                 ?>
-
-                <!-- <input type="radio" name="nowIncome" id="nowIncome1" value="200万円以下" checked><label class="form-control-radio" for="nowIncome1">200万円以下</label>
-                <input type="radio" name="nowIncome" id="nowIncome2" value="200万円以上300万円未満"><label class="form-control-radio" for="nowIncome2">200万円以上300万円未満</label>
-                <input type="radio" name="nowIncome" id="nowIncome3" value="300万円以上400万円未満"><label class="form-control-radio" for="nowIncome3">300万円以上400万円未満</label>
-                <input type="radio" name="nowIncome" id="nowIncome4" value="400万円以上500万円未満"><label class="form-control-radio" for="nowIncome4">400万円以上500万円未満</label>
-                <input type="radio" name="nowIncome" id="nowIncome5" value="500万円以上600万円未満"><label class="form-control-radio" for="nowIncome5">500万円以上600万円未満</label>
-                <input type="radio" name="nowIncome" id="nowIncome6" value="600万円以上700万円未満"><label class="form-control-radio" for="nowIncome6">600万円以上700万円未満</label>
-                <input type="radio" name="nowIncome" id="nowIncome7" value="700万円以上800万円未満"><label class="form-control-radio" for="nowIncome7">700万円以上800万円未満</label>
-                <input type="radio" name="nowIncome" id="nowIncome8" value="800万円以上900万円未満"><label class="form-control-radio" for="nowIncome8">800万円以上900万円未満</label>
-                <input type="radio" name="nowIncome" id="nowIncome9" value="900万円以上1000万円未満"><label class="form-control-radio" for="nowIncome9">900万円以上1000万円未満</label>
-                <input type="radio" name="nowIncome" id="nowIncome10" value="1000万円以上"><label class="form-control-radio" for="nowIncome10">1000万円以上</label> -->
               </div>
 
 
 
               <div class="form-group">
               <p for="registration_prefecture">居住地</p>
-                <select name="prefecture" id="registration_prefecture">
+                <select name="registration_prefecture" id="registration_prefecture">
                   <?php
                   $results = prefecture();
                   var_dump($results);
@@ -411,62 +428,14 @@ $title = "新規アカウント登録";
                     prefectureResult($result);
                   }
                   ?>
-                <!-- <option value="P01">北海道</option>,
-                <option value="P02">青森県</option>,
-                <option value="P03">岩手県</option>,
-                <option value="P04">宮城県</option>,
-                <option value="P05">秋田県</option>,
-                <option value="P06">山形県</option>,
-                <option value="P07">福島県</option>,
-                <option value="P08">茨城県</option>,
-                <option value="P09">栃木県</option>,
-                <option value="P10">群馬県</option>,
-                <option value="P11">埼玉県</option>,
-                <option value="P12">千葉県</option>,
-                <option value="P13">東京都</option>,
-                <option value="P14">神奈川県</option>,
-                <option value="P15">新潟県</option>,
-                <option value="P16">富山県</option>,
-                <option value="P17">石川県</option>,
-                <option value="P18">福井県</option>,
-                <option value="P19">山梨県</option>,
-                <option value="P20">長野県</option>,
-                <option value="P21">岐阜県</option>,
-                <option value="P22">静岡県</option>,
-                <option value="P23">愛知県</option>,
-                <option value="P24">三重県</option>,
-                <option value="P25">滋賀県</option>,
-                <option value="P26">京都府</option>,
-                <option value="P27">大阪府</option>,
-                <option value="P28">兵庫県</option>,
-                <option value="P29">奈良県</option>,
-                <option value="P30">和歌山県</option>,
-                <option value="P31">鳥取県</option>,
-                <option value="P32">島根県</option>,
-                <option value="P33">岡山県</option>,
-                <option value="P34">広島県</option>,
-                <option value="P35">山口県</option>,
-                <option value="P36">徳島県</option>,
-                <option value="P37">香川県</option>,
-                <option value="P38">愛媛県</option>,
-                <option value="P39">高知県</option>,
-                <option value="P40">福岡県</option>,
-                <option value="P41">佐賀県</option>,
-                <option value="P42">長崎県</option>,
-                <option value="P43">熊本県</option>,
-                <option value="P44">大分県</option>,
-                <option value="P45">宮崎県</option>,
-                <option value="P46">鹿児島県</option>,
-                <option value="P47">沖縄県</option>,
-                <option value="P48">海外</option> -->
               </select>
               </div>
 
               <div class="text-center">
-                <input type="submit" name="btn_confirm" class="btn btn-primary" value="確認する">
+                <input type="submit" name="btn_confirm" class="btn btn-primary btn-margin" value="確認する">
               </div>
             </form>
-            </section>
+          </section>
             <div class="back-home text-center">
               <a href="/gs_ats/top/">応募者一覧に戻る</a>
             </div>

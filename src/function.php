@@ -81,9 +81,10 @@ function outputApplicant($result){
   $now = date("Ymd");
   $birthday = str_replace("-", "", $result["birth_day"]);//ハイフンを除去しています。
   $age = floor(($now-$birthday)/10000).'歳';
-  p('<tr class="applicant-list">' .'<td class="applicant-id">'. $result["id"] .'</td>'.'<td class="applicant-name">' .$result["last_name"]. " " . $result["first_name"] . '</td>' . '<td class="applicant-kana">' . $result["last_kana"]. " " . $result["first_kana"]  . '</td>'. '<td class="applicant-age">' . $age. '</td>' . '<td class="applicant-sex">' . $result["sex"] . '</td>' . '</rt>');
+  p('<tr class="applicant-list">' .'<td class="applicant-id">'. $result["id"] .'</td>'.'<td class="applicant-name"><a href="detail/'.$result["id"].'/">' .$result["last_name"]. " " . $result["first_name"] . '</a></td>' . '<td class="applicant-kana">' . $result["last_kana"]. " " . $result["first_kana"]  . '</td>'. '<td class="applicant-age">' . $age. '</td>' . '<td class="applicant-sex">' . $result["sex"] . '</td>' . '</rt>');
 }
 
+// 応募者登録：居住地
 function prefecture(){
   $sql = "SELECT prefecture_name
       FROM gs_m_prefecture";
@@ -98,10 +99,12 @@ function prefecture(){
   return $result;
 }
 
+// 応募者登録：居住地リスト
 function prefectureResult($result) {
   p('<option value="'.$result["prefecture_name"].'">'. $result["prefecture_name"].'</option>');
 }
 
+// 応募者登録：現在年収
 function nowIncome() {
   $sql = "SELECT *
       FROM gs_m_nowincome";
@@ -116,14 +119,16 @@ function nowIncome() {
   return $result;
 }
 
+// 応募者登録：現在年収リスト
 function nowIncomeResult($result) {
   if($result["id"] == 1){
-    p('<input type="radio" name="nowIncome" id="nowIncome'.$result["id"].'" value="'.$result["nowincome_text"].'" checked><label class="form-control-radio" for="nowIncome'.$result["id"].'">'.$result["nowincome_text"].'</label>');
+    p('<input type="radio" name="registration_nowIncome" id="nowIncome'.$result["id"].'" value="'.$result["nowincome_text"].'" checked><label class="form-control-radio" for="nowIncome'.$result["id"].'">'.$result["nowincome_text"].'</label>');
   } else {
-    p('<input type="radio" name="nowIncome" id="nowIncome'.$result["id"].'" value="'.$result["nowincome_text"].'"><label class="form-control-radio" for="nowIncome'.$result["id"].'">'.$result["nowincome_text"].'</label>');
+    p('<input type="radio" name="registration_nowIncome" id="nowIncome'.$result["id"].'" value="'.$result["nowincome_text"].'"><label class="form-control-radio" for="nowIncome'.$result["id"].'">'.$result["nowincome_text"].'</label>');
   }
 }
 
+// 応募者登録：現在の雇用形態
 function employment() {
   $sql = "SELECT *
       FROM gs_m_employment";
@@ -138,12 +143,25 @@ function employment() {
   return $result;
 }
 
+// 応募者登録：現在の雇用形態リスト
 function employmentResult($result) {
   if($result["id"] == 1){
-    p('<input type="radio" name="nowEmploymentStatus" id="nowEmploymentStatus'.$result["id"].'" value="'.$result["employment"].'" checked><label class="form-control-radio" for="nowEmploymentStatus'.$result["id"].'">'.$result["employment"].'</label>');
+    p('<input type="radio" name="registration_nowEmploymentStatus" id="nowEmploymentStatus'.$result["id"].'" value="'.$result["employment"].'" checked><label class="form-control-radio" for="nowEmploymentStatus'.$result["id"].'">'.$result["employment"].'</label>');
   } else {
-    p('<input type="radio" name="nowEmploymentStatus" id="nowEmploymentStatus'.$result["id"].'" value="'.$result["employment"].'"><label class="form-control-radio" for="nowEmploymentStatus'.$result["id"].'">'.$result["employment"].'</label>');
+    p('<input type="radio" name="registration_nowEmploymentStatus" id="nowEmploymentStatus'.$result["id"].'" value="'.$result["employment"].'"><label class="form-control-radio" for="nowEmploymentStatus'.$result["id"].'">'.$result["employment"].'</label>');
   }
+}
+
+function getApplicantDetail() {
+  $urlArray = explode("/", $_SERVER["REQUEST_URI"]);
+  $applicantId = $urlArray[4];
+  
+  $sql = 'SELECT * FROM gs_applicant_user WHERE id = :id';
+
+  $stmt = getDbh()->prepare($sql);
+  $stmt->bindParam(':id', $applicantId, PDO::PARAM_STR);
+  $stmt->execute();
+  return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 // // 一発削除
